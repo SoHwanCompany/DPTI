@@ -1,0 +1,7 @@
+
+sever:
+  port: 8080
+
+spring:
+  profiles:
+    include: auth
