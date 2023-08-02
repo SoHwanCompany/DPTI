@@ -5,17 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 
 public class ResultDTO {
-    // 유형 (Q : 질문, A : 대답)
-    String type;
-
-    // 직업 번호
-    int id;
 
     // 직무 명
     String title;
@@ -25,4 +23,8 @@ public class ResultDTO {
 
     // 직무 설명
     String description;
+
+    // 추천 기업
+    @Builder.Default
+    List<String> companies = new ArrayList<>();
 }
