@@ -1,7 +1,11 @@
-
 sever:
   port: 8080
 
 spring:
+  # Redis
+  redis:
+    host: redis
+    port: 6379
+
   profiles:
     include: auth
