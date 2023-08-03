@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, ChangeEvent } from 'react';
-import { SurveyItemProps } from "@/types"
+import React, { useState, ChangeEvent } from "react";
+import { SurveyItemProps } from "@/types";
 
-const SurveyItem = ({ title }: SurveyItemProps) => {
+const SurveyItem = ({ question, no, setNo, setAnswer }: SurveyItemProps) => {
   const [selectedValue, setSelectedValue] = useState(""); // 사용자가 선택한 값을 상태로 관리
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -12,67 +12,30 @@ const SurveyItem = ({ title }: SurveyItemProps) => {
 
   return (
     <>
-      <div>{title}</div>
-      <div className="flex">
-        <div>매우 그렇지 않다.</div>
-        <div className="radio-buttons">
-          {/* 5개의 라디오 버튼을 생성하고, value 값으로 각 원의 등급을 표시 */}
-          <label>
-            <input
-              type="radio"
-              name="rating"
-              value="1"
-              checked={selectedValue === "1"}
-              onChange={handleRadioChange}
-            />
-            원1
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="rating"
-              value="2"
-              checked={selectedValue === "2"}
-              onChange={handleRadioChange}
-            />
-            원2
-          </label>
-          {/* 나머지 원들도 동일하게 생성 */}
-          <label>
-            <input
-              type="radio"
-              name="rating"
-              value="3"
-              checked={selectedValue === "3"}
-              onChange={handleRadioChange}
-            />
-            원3
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="rating"
-              value="4"
-              checked={selectedValue === "4"}
-              onChange={handleRadioChange}
-            />
-            원4
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="rating"
-              value="5"
-              checked={selectedValue === "5"}
-              onChange={handleRadioChange}
-            />
-            원5
-          </label>
-        </div>
-        <div>매우 그렇다.</div>
+      <div className="text-7xl text-center p-8">{question}</div>
+      <div className="flex flex-row w-auto gap-8">
+        <button className="btn-answer" onClick={() => {setAnswer("매우 그렇지 않다.")}}>
+          <div className="text-2xl">매우 그렇지 않다.</div>
+        </button>
+
+        <button className="btn-answer" onClick={() => {setAnswer("그렇지 않다.")}}>
+          <div className="text-2xl">그렇지 않다.</div>
+        </button>
+
+        <button className="btn-answer" onClick={() => {setAnswer("보통이다")}}>
+          <div className="text-2xl">보통이다</div>
+        </button>
+
+        <button className="btn-answer" onClick={() => {setAnswer("그렇다.")}}>
+          <div className="text-2xl">그렇다</div>
+        </button>
+
+        <button className="btn-answer" onClick={() => {setAnswer("매우 그렇다.")}}>
+          <div className="text-2xl">매우 그렇다.</div>
+        </button>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SurveyItem
+export default SurveyItem;

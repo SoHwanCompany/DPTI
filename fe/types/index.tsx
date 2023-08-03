@@ -1,4 +1,6 @@
 export interface SurveyItemProps {
-  title: string;
-  
+  question: string;
+  no: number;
+  setNo: (newNo: number) => void;
+  setAnswer : (newAnswer: string) => void;
 }
