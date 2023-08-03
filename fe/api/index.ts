@@ -1,35 +1,51 @@
 import axios from "axios";
 
-const base_url = "https://naver.com/api/v1/dpti";
+const base_url = "http://localhost:8080/api/v1/dpti";
 
-const firstSurvey = (id: number, no: number) => {
+const firstSurvey = async (id: number, no: number) => {
   const url = base_url + `?id=${id}&no=${no}`;
-  axios.post(url).then((response) => {
-    console.log(response)
-    return response;
-  })
+  console.log(url)
+  try {
+    const response = await axios.post(url);
+    return response.data;
+  } catch (error) {
+    console.error('Error occurred:', error);
+    throw error; // Rethrow the error or handle it accordingly
+  }
+
 }
 
-const survey = (id: number, no: number, question : string, answer : string) => {
+const survey = async (id: number, no: number, question : string, answer : string) => {
   const url = base_url + `?id=${id}&no=${no}`;
   
-  axios.post(url, {
+  const data = {
     question: question,
-    answer : answer
-  }).then((response) => {
-    console.log(response)
-    return response;
-  })
+    answer: answer
+  };
+
+  try {
+    const response = await axios.post(url, data);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Error occurred:', error);
+    throw error; // Rethrow the error or handle it accordingly
+  }
 }
 
-const result = (id: number, question : string, answer : string) => {
+const result = async(id: number, question : string, answer : string) => {
   const url = base_url + `/result?id=${id}`;
   
-  axios.post(url, {
-    question: question,
-    answer : answer
-  }).then((response) => {
-    console.log(response)
-    return response;
-  })
+  try {
+    const response = await axios.post(url, {
+      question: question,
+      answer : answer
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error occurred:', error);
+    throw error; // Rethrow the error or handle it accordingly
+  }
 }
+
+export { firstSurvey, survey, result };

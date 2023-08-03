@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+const min = 100000;
+const max = 1000000;
+
 type UserState = {
   value: number;
 };
@@ -17,7 +20,7 @@ export const user = createSlice({
       state.value = 0;
     },
     generate: (state) => {
-      state.value = Math.floor(Math.random()*1000000);
+      state.value = Math.floor(Math.random() * (max - min) + min);
     },
   },
 });

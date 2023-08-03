@@ -1,14 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import SurveyItem from "@/components/SurveyItem";
-import { surveyList } from "@/constants";
-import Link from "next/link";
-
 import { generate, reset } from "@/redux/userSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+
+import SurveyItem from "@/components/SurveyItem";
+import { firstSurvey, survey } from "@/api";
 
 const page = () => {
-  const count = useAppSelector((state) => state.userReducer.value);
+  const userId = useAppSelector((state) => state.userReducer.value);
   const dispatch = useAppDispatch();
   const [no, setNo] = useState(0);
   const [question, setQuestion] = useState("");
@@ -16,16 +16,21 @@ const page = () => {
 
   useEffect(() => {
     dispatch(generate());
+    console.log(userId)
+    firstSurvey(userId, no).then((response:any) => {
+      console.log(response)
+      // const q: string = response.data;
+      setQuestion(response);
+    })
   }, []);
-
-  useEffect(() => {
-    // 번호가 바뀌면 그 번호로 요청한다.
-    // setQuestion(`hi ${no}`);
-    setQuestion(surveyList)
-  }, [no]);
 
   const confirmAnswer = () => {
     if (answer) {
+      survey(userId, no + 1, question, answer).then((response:any) => {
+        console.log(response)
+        // const q: string = response.data;
+        setQuestion(response);
+      })
       setNo(no + 1);
     }
   }
@@ -35,7 +40,7 @@ const page = () => {
       <div className="flex min-h-screen flex-col items-center justify-between p-8">
         <div className="text-3xl">DPTI 검사</div>
         <div className="flex flex-col border-solid border-2 border-gray-50 items-center justify-between p-8">
-          검사 영역입니다. {count} / {no} / {answer}
+          검사 영역입니다. {userId} / {no} / {answer}
           <SurveyItem question={question} no={no} setNo={setNo} setAnswer={setAnswer} />
           <button className="btn-base mt-8" onClick={() => confirmAnswer()}>확인</button>
         </div>
