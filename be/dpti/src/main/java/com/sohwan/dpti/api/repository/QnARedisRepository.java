@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Repository;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,8 @@ public class QnARedisRepository {
 
     private final RedisTemplate redisTemplate;
     private final ObjectMapper objectMapper;
+
+    private static final Duration TTL = Duration.ofDays(1);
 
     public List<QnADTO> getList(String id) {
         List<QnADTO> result = new ArrayList<>();
@@ -52,6 +55,6 @@ public class QnARedisRepository {
     }
 
     public void set(String key, QnADTO qnADTO) {
-        redisTemplate.opsForValue().set(key, qnADTO);
+        redisTemplate.opsForValue().set(key, qnADTO, TTL);
     }
 }

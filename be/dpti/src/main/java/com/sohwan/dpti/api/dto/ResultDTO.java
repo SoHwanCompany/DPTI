@@ -12,8 +12,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class ResultDTO {
+
+    // 직무 ID
+    int id;
 
     // 직무 명
     String title;
@@ -24,7 +26,15 @@ public class ResultDTO {
     // 직무 설명
     String description;
 
-    // 추천 기업
+    // 관련 스택
+    @Builder.Default
+    List<String> stacks = new ArrayList<>();
+
+    // 관련 기업
     @Builder.Default
     List<String> companies = new ArrayList<>();
+
+    public void setCompanies(List<String> companies) {
+        this.companies = companies;
+    }
 }

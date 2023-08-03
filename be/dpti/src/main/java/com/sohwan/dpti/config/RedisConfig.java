@@ -64,7 +64,7 @@ public class RedisConfig {
 	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
 		return RedisCacheManager.builder(redisConnectionFactory)
 			.cacheDefaults(defaultCacheConfiguration())
-			.withInitialCacheConfigurations(customCacheConfiguration()).build();
+			.build();
 	}
 
 	/**
@@ -76,16 +76,5 @@ public class RedisConfig {
 			.serializeKeysWith(SerializationPair.fromSerializer(new StringRedisSerializer()))
 			.serializeValuesWith(
 				SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
-	}
-
-	/**
-	 * Redis 캐시의 사용자 지정
-	 * @return
-	 */
-	private Map<String, RedisCacheConfiguration> customCacheConfiguration() {
-		Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-		cacheConfigurations.put("user",
-			defaultCacheConfiguration().entryTtl(Duration.ofMinutes(10)));
-		return cacheConfigurations;
 	}
 }

@@ -1,5 +1,6 @@
 package com.sohwan.dpti.api.service;
 
+import com.sohwan.dpti.api.client.WantedClient;
 import com.sohwan.dpti.api.client.WantedLaaSClient;
 import com.sohwan.dpti.api.dto.QnADTO;
 import com.sohwan.dpti.api.dto.ResultDTO;
@@ -16,6 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DptiServiceImpl implements DptiService {
 
+    private final WantedClient wantedClient;
     private final WantedLaaSClient wantedLaaSClient;
     private final QnARedisRepository qnARedisRepository;
 
@@ -36,7 +38,14 @@ public class DptiServiceImpl implements DptiService {
     public ResultDTO getResult(String id, QnADTO qnADTO) {
         List<QnADTO> list = new ArrayList<>(qnARedisRepository.getList(id));
         list.add(qnADTO);
-        return wantedLaaSClient.getResult(list);
+
+        ResultDTO result = wantedLaaSClient.getResult(list);
+
+        if(result != null) {
+            result.setCompanies(wantedClient.getCompanies(result.getId()));
+        }
+
+        return result;
     }
 }
 
