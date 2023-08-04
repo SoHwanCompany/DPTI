@@ -9,7 +9,7 @@ const SurveyItemSkeleton = () => {
 
   return (
     <>
-      <div className="lg:text-5xl sm:text-3xl text-center p-16"></div>
+      <div className="lg:text-5xl sm:text-3xl text-center p-16">&nbsp;</div>
       <div className="flex flex-row w-auto gap-8 animate-pulse	">
         <button className="btn-answer">
           <div className="lg:text-2xl sm:text-xl"></div>

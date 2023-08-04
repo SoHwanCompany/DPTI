@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "@/redux/userSlice"
+import historyReducer from "@/redux/historySlice"
 
 export const store = configureStore({
   reducer: {
-    userReducer
+    historyReducer
   },
   devTools: process.env.NODE_ENV !== "production",
 });
