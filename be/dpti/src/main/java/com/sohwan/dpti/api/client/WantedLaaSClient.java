@@ -1,5 +1,8 @@
 package com.sohwan.dpti.api.client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.sohwan.dpti.api.dto.QnADTO;
 import com.sohwan.dpti.api.dto.ResultDTO;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +43,7 @@ public class WantedLaaSClient {
 
     public WantedLaaSClient() {
         // webClient 기본 설정
-        this.webClient = WebClient.builder()
-                .baseUrl(LAAS_URL)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .build();
+        this.webClient = WebClient.builder().baseUrl(LAAS_URL).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
     }
 
     public String getQuestion(Map<String, Object> bodyMap) {
@@ -51,15 +51,7 @@ public class WantedLaaSClient {
         bodyMap.put("hash", QUESTION_HASH);
 
         try {
-            JsonNode response = webClient
-                    .post()
-                    .header("project", PROJECT)
-                    .header("serviceType", SERVICE_TYPE)
-                    .header("apiKey", API_KEY)
-                    .bodyValue(bodyMap)
-                    .retrieve()
-                    .bodyToMono(JsonNode.class)
-                    .block();
+            JsonNode response = webClient.post().header("project", PROJECT).header("serviceType", SERVICE_TYPE).header("apiKey", API_KEY).bodyValue(bodyMap).retrieve().bodyToMono(JsonNode.class).block();
 
             result = response.get("choices").get(0).get("message").get("content").toString();
         } catch (Exception e) {
@@ -75,21 +67,22 @@ public class WantedLaaSClient {
         bodyMap.put("hash", QUESTION_HASH);
 
         try {
-//            JsonNode response = webClient
-//                    .post()
-//                    .header("project", PROJECT)
-//                    .header("serviceType", SERVICE_TYPE)
-//                    .header("apiKey", API_KEY)
-//                    .bodyValue(bodyMap)
-//                    .retrieve()
-//                    .bodyToMono(JsonNode.class)
-//                    .block();
+            JsonNode response = webClient.post().header("project", PROJECT).header("serviceType", SERVICE_TYPE).header("apiKey", API_KEY).bodyValue(bodyMap).retrieve().bodyToMono(JsonNode.class).block();
 
-            // 데이터 전처리
-            List<String> st = Arrays.asList("Java", "Node.js", "C", "Nginx");
-            result = ResultDTO.builder().id(872).title("서버 개발자").score(80).description("서버 개발자는 서버를 개발하는 직무입니다.").stacks(st).build();
+            // 추후 데이터 전처리
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectReader reader = mapper.readerFor(new TypeReference<List<String>>() {});
+// use it
+            JsonNode data = response.get("choices").get(0).get("message").get("content");
+            result = ResultDTO.builder().id(Integer.parseInt(data.get("id").toString()))
+                    .title(data.get("title").toString())
+                    .score(Integer.parseInt(data.get("score").toString()))
+                    .description(data.get("description")
+                            .toString()).stacks(reader.readValue(data.get("stacks"))).build();
         } catch (Exception e) {
             log.error("Error loading result from LaaS API = {}", e.getMessage());
+            List<String> st = Arrays.asList("Java", "Node.js", "C", "Nginx");
+            result = ResultDTO.builder().id(872).title("서버 개발자").score(80).description("서버 개발자는 서버를 개발하는 직무입니다.").stacks(st).build();
         }
 
         return result;
