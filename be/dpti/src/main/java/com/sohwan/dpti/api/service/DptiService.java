@@ -4,7 +4,7 @@ import com.sohwan.dpti.api.dto.QnADTO;
 import com.sohwan.dpti.api.dto.ResultDTO;
 
 public interface DptiService {
-    String getQuestion(String id, int no, QnADTO qnADTO);
+    String getQuestion(String history);
 
-    ResultDTO getResult(String id, QnADTO qnADTO);
+    ResultDTO getResult(String history);
 }

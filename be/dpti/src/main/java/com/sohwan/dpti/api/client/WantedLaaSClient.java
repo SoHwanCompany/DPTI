@@ -61,28 +61,23 @@ public class WantedLaaSClient {
         return result;
     }
 
-    public ResultDTO getResult(List<QnADTO> list) {
+    public ResultDTO getResult(Map<String, Object> bodyMap) {
         ResultDTO result = null;
-        Map<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put("hash", QUESTION_HASH);
+        bodyMap.put("hash", RESULT_HASH);
 
         try {
             JsonNode response = webClient.post().header("project", PROJECT).header("serviceType", SERVICE_TYPE).header("apiKey", API_KEY).bodyValue(bodyMap).retrieve().bodyToMono(JsonNode.class).block();
 
-            // 추후 데이터 전처리
+            String data = response.get("choices").get(0).get("message").get("content").toString()
+                    .replace("\\", "")
+                    .replace("\"{","{")
+                    .replace("}\"", "}");
+
+            // 데이터 전처리
             ObjectMapper mapper = new ObjectMapper();
-            ObjectReader reader = mapper.readerFor(new TypeReference<List<String>>() {});
-// use it
-            JsonNode data = response.get("choices").get(0).get("message").get("content");
-            result = ResultDTO.builder().id(Integer.parseInt(data.get("id").toString()))
-                    .title(data.get("title").toString())
-                    .score(Integer.parseInt(data.get("score").toString()))
-                    .description(data.get("description")
-                            .toString()).stacks(reader.readValue(data.get("stacks"))).build();
+            result = mapper.readValue(data, ResultDTO.class);
         } catch (Exception e) {
             log.error("Error loading result from LaaS API = {}", e.getMessage());
-            List<String> st = Arrays.asList("Java", "Node.js", "C", "Nginx");
-            result = ResultDTO.builder().id(872).title("서버 개발자").score(80).description("서버 개발자는 서버를 개발하는 직무입니다.").stacks(st).build();
         }
 
         return result;

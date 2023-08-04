@@ -19,14 +19,14 @@ public class DptiController {
     private final DptiService dptiService;
 
     @PostMapping
-    public ResponseEntity<String> getQuestion(@RequestParam String id, @RequestParam int no, @RequestBody(required = false) QnADTO qnADTO) {
-       log.info("Sending a question to user {}", id);
-        return new ResponseEntity<>(dptiService.getQuestion(id, no, qnADTO), HttpStatus.OK);
+    public ResponseEntity<String> getQuestion(@RequestBody String history) {
+       log.info("Sending a question to user {}", history);
+        return new ResponseEntity<>(dptiService.getQuestion(history), HttpStatus.OK);
     }
 
     @PostMapping("/result")
-    public ResponseEntity<ResultDTO> getResult(@RequestParam String id, @RequestBody QnADTO qnADTO) {
-        log.info("Sending a result to user {}", id);
-        return new ResponseEntity<>(dptiService.getResult(id, qnADTO), HttpStatus.OK);
+    public ResponseEntity<ResultDTO> getResult(@RequestBody String history) {
+        log.info("Sending a result to user {}", history);
+        return new ResponseEntity<>(dptiService.getResult(history), HttpStatus.OK);
     }
 }
