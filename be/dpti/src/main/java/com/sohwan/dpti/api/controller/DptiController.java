@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @CrossOrigin
 @RestController
@@ -19,13 +21,15 @@ public class DptiController {
     private final DptiService dptiService;
 
     @PostMapping
-    public ResponseEntity<String> getQuestion(@RequestBody String history) {
-       log.info("Sending a question to user {}", history);
+    public ResponseEntity<String> getQuestion(@RequestBody Map<String, Object> map) {
+        String history = map.get("history").toString();
+        log.info("Sending a question to user {}", history);
         return new ResponseEntity<>(dptiService.getQuestion(history), HttpStatus.OK);
     }
 
     @PostMapping("/result")
-    public ResponseEntity<ResultDTO> getResult(@RequestBody String history) {
+    public ResponseEntity<ResultDTO> getResult(@RequestBody Map<String, Object> map) {
+        String history = map.get("history").toString();
         log.info("Sending a result to user {}", history);
         return new ResponseEntity<>(dptiService.getResult(history), HttpStatus.OK);
     }
