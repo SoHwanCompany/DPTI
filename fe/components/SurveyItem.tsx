@@ -12,7 +12,7 @@ const SurveyItem = ({ question, no, setNo, setAnswer }: SurveyItemProps) => {
 
   return (
     <>
-      <div className="lg:text-5xl sm:text-3xl text-center p-8">{question}</div>
+      <div className="lg:text-5xl sm:text-3xl text-center p-16">{question}</div>
       <div className="flex flex-row w-auto gap-8">
         <button className="btn-answer" onClick={() => {setAnswer("매우 그렇지 않다.")}}>
           <div className="lg:text-2xl sm:text-xl">매우 그렇지 않다.</div>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const base_url = "http://localhost:8080/api/v1/dpti";
+const base_url = process.env.NEXT_PUBLIC_URL;
 
 const firstSurvey = async (id: number, no: number) => {
   const url = base_url + `?id=${id}&no=${no}`;
@@ -15,16 +15,16 @@ const firstSurvey = async (id: number, no: number) => {
 
 }
 
-const survey = async (id: number, no: number, question : string, answer : string) => {
+const survey = async (id: number, no: number, question: string, answer: string) => {
   const url = base_url + `?id=${id}&no=${no}`;
-  
+
   const data = {
-    question: question,
-    answer: answer
+    "question": question,
+    "answer": answer
   };
 
   try {
-    const response = await axios.post(url, data);
+    const response = await axios.post(url, data, {});
     console.log(response);
     return response.data;
   } catch (error) {
@@ -33,13 +33,13 @@ const survey = async (id: number, no: number, question : string, answer : string
   }
 }
 
-const result = async(id: number, question : string, answer : string) => {
+const result = async (id: number, question: string, answer: string) => {
   const url = base_url + `/result?id=${id}`;
-  
+
   try {
     const response = await axios.post(url, {
       question: question,
-      answer : answer
+      answer: answer
     });
     return response.data;
   } catch (error) {
