@@ -14,26 +14,32 @@ const page = () => {
   const limit = 10;
   const [answer, setAnswer] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [no, setNo] = useState(1);
+  const [no, setNo] = useState(0);
   const [question, setQuestion] = useState("");
+  const [len, setLen] = useState(1);
 
   useEffect(() => {
     dispatch(reset());
     survey(history).then((response: any) => {
       setQuestion(response);
-      dispatch(add(history + "라는 질문에 그렇다라고 대답했다."));
       setIsLoading(true);
+      console.log(history)
     });
   }, []);
 
-  const confirmAnswer = () => {
+  useEffect(() => {
     survey(history).then((response: any) => {
+      console.log(history)
       setQuestion(response);
-      dispatch(add(history + " " + question + "라는 질문에 " + answer + "라고 대답했다."));
       setIsLoading(true);
     });
     setNo(no + 1);
     setIsLoading(false);
+  }, [len])
+
+  const confirmAnswer = () => {
+    dispatch(add(history + " " + question + "라는 질문에 " + answer + "라고 대답했다."));
+    setLen(history.length);
   };
 
   if (question.length > 0) {

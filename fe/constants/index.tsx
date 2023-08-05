@@ -17,12 +17,10 @@ export const imgMatching = (name?: string, id?: number) => {
     return "server";
   } else if (
     name === "자바 개발자" ||
-    name === "C,C++ 개발자" ||
     name === "파이썬 개발자" ||
     name === "Node.js 개발자" ||
     name === "PHP 개발자" ||
     id === 660 ||
-    id === 900 ||
     id === 899 ||
     id === 895 ||
     id === 893
@@ -74,9 +72,11 @@ export const imgMatching = (name?: string, id?: number) => {
     name === "임베디드 개발자" ||
     name === "하드웨어 엔지니어" ||
     name === "보안 엔지니어" ||
+    name === "C,C++ 개발자" ||
     id === 658 ||
     id === 672 ||
-    id === 671
+    id === 671 ||
+    id === 900
   ) {
     return "embedded";
   } else if (
