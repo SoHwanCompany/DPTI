@@ -6,7 +6,7 @@ type HistoryState = {
 
 // 6자리 랜덤 값 생성
 const initialState = {
-  history : "프로그래밍에 대한 흥미와 열정이 있나요? 그렇다",
+  history : "프로그래밍에 대한 흥미와 열정이 있나요?",
 } as HistoryState;
 
 export const history = createSlice({

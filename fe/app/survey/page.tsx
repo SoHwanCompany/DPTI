@@ -21,7 +21,7 @@ const page = () => {
     dispatch(reset());
     survey(history).then((response: any) => {
       setQuestion(response);
-      dispatch(add(history + " " + question + " " + answer));
+      dispatch(add(history + "라는 질문에 그렇다라고 대답했다."));
       setIsLoading(true);
     });
   }, []);
@@ -29,7 +29,7 @@ const page = () => {
   const confirmAnswer = () => {
     survey(history).then((response: any) => {
       setQuestion(response);
-      dispatch(add(history + " " + question + " " + answer));
+      dispatch(add(history + " " + question + "라는 질문에 " + answer + "라고 대답했다."));
       setIsLoading(true);
     });
     setNo(no + 1);
