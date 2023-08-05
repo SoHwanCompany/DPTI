@@ -69,6 +69,7 @@ public class WantedLaaSClient {
             JsonNode response = webClient.post().header("project", PROJECT).header("serviceType", SERVICE_TYPE).header("apiKey", API_KEY).bodyValue(bodyMap).retrieve().bodyToMono(JsonNode.class).block();
 
             String data = response.get("choices").get(0).get("message").get("content").toString()
+                    .replace("\\n", "")
                     .replace("\\", "")
                     .replace("\"{","{")
                     .replace("}\"", "}");
