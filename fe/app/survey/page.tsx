@@ -11,6 +11,7 @@ import { survey } from "@/api";
 const page = () => {
   const history = useAppSelector((state) => state.historyReducer.history);
   const dispatch = useAppDispatch();
+  const limit = 10;
   const [answer, setAnswer] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [no, setNo] = useState(1);
@@ -46,18 +47,18 @@ const page = () => {
         </Link>
         <div className="flex min-h-screen flex-col items-center p-8">
           <div className="flex flex-col items-center justify-between pb-8">
-            <div className="text-xl">{no <= 7 ? `${no} / 7` : ""}</div>
+            <div className="text-xl">{no <= limit ? `${no} / ${limit}` : ""}</div>
             {isLoading ? (
               <SurveyItem question={question} no={no} setNo={setNo} setAnswer={setAnswer} />
             ) : (
               <SurveyItemSkeleton />
             )}
 
-            {no === 7 ? (
+            {no === limit ? (
               <Link className="btn-base mt-8" href="/result">
                 결과 보러 가기
               </Link>
-            ) : isLoading && no < 7 ? (
+            ) : isLoading && no < limit ? (
               <button className="btn-base mt-12" onClick={() => confirmAnswer()}>
                 확인
               </button>

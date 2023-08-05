@@ -36,7 +36,7 @@ const page = () => {
     });
   }, []);
 
-  const imgUrl = `/${imgMatching("서버 개발자", 872)}.png`;
+  const imgUrl = `/${imgMatching(title, id)}.png`;
 
   if (title.length === 0) {
     <>
